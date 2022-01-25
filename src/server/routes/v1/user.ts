@@ -8,23 +8,6 @@ import { outputOkSchema, user, userLogin, userUpdate} from '../../schemes';
 export default [
   {
     method: 'GET',
-    path: '/v1/user',
-    handler: getUser,
-    options: {
-      auth: 'jwt-access',
-      // id: 'v1.user.get',
-      // tags: ['api', 'v1', 'user'],
-      // response: {
-        // schema: outputOkSchema(
-          // Joi.object({
-            // firstName: Joi.string().example('John'),
-          // })
-        // ),
-      // },
-    },
-  },
-  {
-    method: 'GET',
     path: '/v1/test',
     config: {
       auth: 'jwt-access'

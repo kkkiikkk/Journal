@@ -75,7 +75,7 @@ const init = async () => {
   // Загружаем маршруты
   server.route(routes);
   // Error handler
-  //   server.ext('onPreResponse', responseHandler);
+  
   // Enable CORS (Do it last required!)
   // Запускаем сервер
   try {

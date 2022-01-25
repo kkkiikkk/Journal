@@ -30,9 +30,6 @@ export function tokenValidate(tokenType: 'access' | 'refresh'): validateFunc {
     return async function (r, token: string) {
         const data = await decodeJwt(token, config.auth.jwt[tokenType].secret);
 
-        // const {user} = await Session.findByPk(data.id, {
-        //     include: [{ model: User }],
-        // });
         const seesion = await Session.findOne({
             where: {
                 id: data.id
@@ -50,7 +47,6 @@ export function tokenValidate(tokenType: 'access' | 'refresh'): validateFunc {
         })
 
         if (user) {
-            // console.log(user)
 
             return { isValid: true, credentials: user, artifacts: { token, type: tokenType, }, };
         }
