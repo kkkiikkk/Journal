@@ -122,10 +122,32 @@ export const createProfile = async (r) => {
   return Boom.badRequest('Profile already exists')
 }
 
-type ProfileType = {
-    userId: string,
-    faculty: string,
-    university: string,
-    group: string,
-    type: string
+export const updateUser = async (r) => {
+
+  const { id } = r.auth.credentials
+
+  const user = await User.findOne({
+    where: {
+      id: id
+    }
+  })
+
+  user.set({
+    username: r.payload.username,
+    password: r.payload.password,
+    phone: r.payload.phone,
+    dateOfBirth: r.payload.dateOfBirth,
+    sex: r.payload.sex
+  })
+
+  await user.save()
+
+  return output({
+    username: r.payload.username,
+    password: r.payload.password,
+    phone: r.payload.phone,
+    dateOfBirth: r.payload.dateOfBirth,
+    sex: r.payload.sex
+  })
+
 }

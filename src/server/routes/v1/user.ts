@@ -1,7 +1,7 @@
 import { request } from 'http';
 import * as Joi from 'joi';
 import { options } from 'joi';
-import {  createUser, getUser, authUser, createProfile, } from '../../api/v1/user';
+import {  createUser, getUser, authUser, createProfile, updateUser, } from '../../api/v1/user';
 import config from '../../config/config';
 import { outputOkSchema, profile, user, userLogin, userUpdate} from '../../schemes';
 
@@ -54,6 +54,19 @@ export default [
       }
     },
     handler: createProfile
+  },
+  {
+    method: 'PUT',
+    path: '/v1/updateUser',
+    options: {
+      auth: 'jwt-access',
+      id: 'v1.updateUser.put',
+      tags:['api', 'v1', 'updateUser'],
+      validate: {
+        payload: userUpdate
+      }
+    },
+    handler: updateUser
   }
   
 ];
