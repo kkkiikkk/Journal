@@ -21,6 +21,9 @@ npm-debug.log
 # local env variables
 .env
 
+# Linter
+.eslintrc
+
 # build directory
 build/
 
@@ -28,3 +31,5 @@ build/
 .DS_Store/
 
 package-lock.json
+
+.gitignore

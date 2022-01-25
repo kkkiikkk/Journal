@@ -4,6 +4,8 @@ import { error, output, saveImage, } from '../../utils';
 import * as Boom from '@hapi/boom'
 import { Session } from '../../models/Session';
 import { generateJwt } from '../../utils/auth';
+import { Profile } from '../../models/Profile';
+import { University } from '../../models/University';
 
 export async function getUser(r) {
   return output({ firstName: 'John', });
@@ -70,3 +72,60 @@ export const authUser = async (r) => {
 
 }
 
+export const createProfile = async (r) => {
+
+  const {id} = r.auth.credentials
+
+  const { university, faculty } = r.payload
+
+  const profile = await Profile.findOne({
+    where: {
+      userId: id,
+      university: university,
+      type: r.payload.group ? 'student' : 'teacher' 
+    }
+  })
+
+  if (!profile) {
+
+    const univers = await University.findOne({
+      where: {
+        name: university,
+        userId: id
+      }
+    })
+    
+    if (!univers) {
+      await University.createProfileUniversity({
+        name: university,
+        userId: id
+      })
+    }else {
+      return Boom.badRequest('Profile already exists')
+    }
+
+    await Profile.createProfile({
+      userId: id,
+      faculty: faculty,
+      group: r.payload.group, 
+      university: university,
+      type: r.payload.group ? 'student' : 'teacher'
+    })
+    
+    return output({
+      faculty: faculty,
+      group: r.payload.group,
+      university: university,
+    })
+  }
+
+  return Boom.badRequest('Profile already exists')
+}
+
+type ProfileType = {
+    userId: string,
+    faculty: string,
+    university: string,
+    group: string,
+    type: string
+}

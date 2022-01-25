@@ -46,7 +46,8 @@ export const userLogin = Joi.object({
 })
 
 export const userUpdate = Joi.object({
-  username: Joi.string(),
+  username: Joi.string()
+    .required(),
   password: Joi.string()
     .min(6)
     .max(24)
@@ -60,6 +61,16 @@ export const userUpdate = Joi.object({
   sex: Joi.string()
     .valid('male', 'female')
     .required()
+})
+
+export const profile = Joi.object({
+  faculty: Joi.string()
+    .required(),
+  university: Joi.string() 
+    .valid('МГУ', 'ТСУР', 'ЗНУ')
+    .required(),
+  group: Joi.string(),
+  
 })
 
 export { user };
