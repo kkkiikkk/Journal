@@ -4,12 +4,13 @@ import {error,} from './index';
 import {User,} from '../models/User';
 import {Session,} from '../models/Session';
 import {Errors,} from './errors';
+import * as Boom from '@hapi/boom'
 
 export const generateJwt = (data: object) => {
     const access = jwt.sign(data, config.auth.jwt.access.secret, {expiresIn: config.auth.jwt.access.lifetime,});
-    const refresh = jwt.sign(data, config.auth.jwt.refresh.secret, {expiresIn: config.auth.jwt.refresh.lifetime,});
+    // const refresh = jwt.sign(data, config.auth.jwt.refresh.secret, {expiresIn: config.auth.jwt.refresh.lifetime,});
 
-    return {access, refresh,};
+    return {access };
 };
 
 export const decodeJwt = async (token: string, secret: string) => {
@@ -29,12 +30,29 @@ export function tokenValidate(tokenType: 'access' | 'refresh'): validateFunc {
     return async function (r, token: string) {
         const data = await decodeJwt(token, config.auth.jwt[tokenType].secret);
 
-        const {user,} = await Session.findByPk(data.id, {
-            include: [{model: User,}],
-        });
+        // const {user} = await Session.findByPk(data.id, {
+        //     include: [{ model: User }],
+        // });
+        const seesion = await Session.findOne({
+            where: {
+                id: data.id
+            }
+        })
+
+        if(!seesion) {
+            throw Boom.notFound('Not found session')
+        }
+
+        const user = await User.findOne({
+            where: {
+                id: data.idUser
+            }
+        })
 
         if (user) {
-            return {isValid: true, credentials: user, artifacts: {token, type: tokenType,},};
+            // console.log(user)
+
+            return { isValid: true, credentials: user, artifacts: { token, type: tokenType, }, };
         }
 
         throw error(Errors.SessionNotFound, 'User not found', {});

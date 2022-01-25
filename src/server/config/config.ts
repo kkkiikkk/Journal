@@ -10,10 +10,6 @@ export default {
         secret: process.env.JWT_ACCESS_SECRET,
         lifetime: Number(process.env.JWT_ACCESS_LIFETIME),
       },
-      refresh: {
-        secret: process.env.JWT_REFRESH_SECRET,
-        lifetime: Number(process.env.JWT_REFRESH_LIFETIME),
-      },
     },
   },
   server: {

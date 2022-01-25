@@ -1,10 +1,21 @@
-import {
-  Column, DataType, Model, Scopes, Table, HasOne,
-} from 'sequelize-typescript';
+import { Column, DataType, Model, Scopes, Table } from 'sequelize-typescript';
 import * as bcrypt from 'bcrypt';
 import { getUUID, } from '../utils';
-import { UserAvatar, } from './UserAvatar';
 
+type UserPayload = {
+  username: string,
+  email: string,
+  password: string,
+  phone: string,
+  dateOfBirth: string,
+  sex: string
+}
+
+/**
+ * 
+ * Structure of the User model table
+ * 
+ */
 @Scopes(() => ({
   defaultScope: {
     attributes: {
@@ -17,29 +28,64 @@ import { UserAvatar, } from './UserAvatar';
     },
   },
 }))
-@Table
-export class User extends Model {
-  @Column({ primaryKey: true, type: DataType.STRING, defaultValue: () => getUUID(), }) id: string;
 
-  @HasOne(() => UserAvatar)
-  avatar: UserAvatar;
+@Table({
+  timestamps: false,
+  tableName: "Users"
+})
+
+export class User extends Model {
+  @Column({ type: DataType.STRING, primaryKey: true, defaultValue: () => getUUID(), })
+  id: string;
+
+  @Column({ type: DataType.STRING, allowNull: false })
+  username: string;
+
+  @Column({type: DataType.STRING, allowNull: false})
+  email: string;
 
   @Column({
     type: DataType.STRING,
     set(value: string) {
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(value, salt);
-      // @ts-ignore
       this.setDataValue('password', hash);
     },
     get() {
-      // @ts-ignore
       return this.getDataValue('password');
     },
   })
   password: string;
+  
+  @Column({type: DataType.STRING, allowNull: false})
+  phone: string;
+  
+  @Column({type: DataType.DATE, allowNull:false,})
+  dateOfBirth: Date;
+
+  @Column({type: DataType.STRING, allowNull: false, })
+  sex: string;
+
 
   async passwordCompare(pwd: string) {
+
     return bcrypt.compareSync(pwd, this.password);
+
+  }
+
+  static createUser = async function (user: UserPayload) {
+
+    const id = getUUID();
+    await this.create({
+      id: id, 
+      username: user.username, 
+      email: user.email, 
+      password: user.password, 
+      phone: user.phone, 
+      dateOfBirth: user.dateOfBirth, 
+      sex: user.sex
+    })
+    
+
   }
 }

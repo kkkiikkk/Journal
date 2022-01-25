@@ -1,49 +1,72 @@
 import { User, } from '../../models/User';
 import { UserAvatar, } from '../../models/UserAvatar';
 import { error, output, saveImage, } from '../../utils';
+import * as Boom from '@hapi/boom'
+import { Session } from '../../models/Session';
+import { generateJwt } from '../../utils/auth';
 
 export async function getUser(r) {
   return output({ firstName: 'John', });
 }
 
-export const getAvatar = async (r) => {
-  try {
-    const user: User = await User.findByPk(r.auth.credentials.id, {
-      include: {
-        model: UserAvatar,
-        as: 'avatar',
-      },
-    });
-    const avatarAsBase64 = `data:image/png;base64${user.avatar.image.toString('base64')}`;
-    return output({ data: avatarAsBase64, userId: user.id, });
-  }
-  catch (err) {
-    console.log(err);
-    throw err;
-  }
-};
+export const createUser = async (r) => {
+  
+  const {
+    email,
+    username,
+    phone,
+    sex
+  } = r.payload
 
-export const addAvatar = async (r) => {
-  try {
-    const user: User = r.auth.credentials;
-
-    // this is basic example code, you may do with received file whatever you want
-    const { avatarImage, } = r.payload;
-    const previousAvatar = await UserAvatar.findOne({ where: { userId: user.id, }, });
-    if (previousAvatar) {
-      await previousAvatar.destroy();
+  const user = await User.findOne({
+    where: {
+      email
     }
+  })
 
-    await saveImage(user.id, avatarImage);
+  if (!user) {
 
-    return output({ message: 'Your avatar has been added!', });
+    await User.createUser(r.payload)
+
+    return output({
+      username: username, 
+      email: email, 
+      phone: phone, 
+      sex: sex
+    })
+
   }
-  catch (err) {
-    if (err.message == 'This file type is now allowed') {
-      return error(400000, 'This file type is now allowed', null);
-    }
 
-    console.log(err);
-    throw err;
+  return Boom.badRequest('User already exists')
+}
+
+export const authUser = async (r) => {
+
+  const { password, email } = r.payload
+
+  const user = await User.scope('withPassword').findOne({
+    where: {
+      email
+    }    
+  })
+   
+  console.log(user)
+
+  if (!user) {
+    return Boom.notFound('User not found')
   }
-};
+
+  if(!user.passwordCompare(password)) {
+    return Boom.badRequest('Invalid Password')
+  }
+
+  const createSession = await Session.newSession(user.id)
+
+  const token = generateJwt(createSession)
+
+  return {
+    access: token.access
+  }
+
+}
+
