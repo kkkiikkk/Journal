@@ -1,0 +1,52 @@
+{
+  "env": {
+    "es6": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "airbnb",
+    "@hapi/eslint-config-hapi",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "indent": ["error", 2],
+    "import/no-unresolved": "off",
+    "@hapi/hapi/for-loop": "off",
+    "no-await-in-loop": "off",
+    "array-callback-return": "off",
+    "import/extensions": "off",
+    "max-len": "warn",
+    "require-await": "off",
+    "guard-for-in": "off",
+    "no-restricted-syntax": "off",
+    "@typescript-eslint/ban-types": "warn",
+    "no-plusplus": "off",
+    "import/prefer-default-export": "off",
+    "no-param-reassign": "warn",
+    "@typescript-eslint/no-var-requires": "warn",
+    "func-style": "off",
+    "@hapi/hapi/scope-start": "off",
+    "no-return-await": "off",
+    "newline-per-chained-call": "off",
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "never",
+        "objects": "always",
+        "imports": "always",
+        "exports": "always",
+        "functions": "never"
+      }
+    ]
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  }
+}
