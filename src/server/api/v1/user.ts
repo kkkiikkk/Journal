@@ -84,7 +84,7 @@ export const createProfile = async (r) => {
   })
 
   if (!profile) {
-    await Profile.createProfile({
+    const profileCreate = await Profile.createProfile({
       userId: r.auth.credentials.id,
       universityId: university.id,
       faculty: r.payload.faculty,
@@ -93,8 +93,8 @@ export const createProfile = async (r) => {
       type: r.payload.group ? 'student' : 'teacher'
     })
 
-    return 'Created'
+    return output(profileCreate.dataValues)
   }
 
-  return error(Errors.InvalidPayload, 'Invalid', {})
+  return error(Errors.InvalidPayload, 'Profile already exists', {})
 }
