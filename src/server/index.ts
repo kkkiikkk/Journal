@@ -13,7 +13,6 @@ import config from './config/config';
 import {handleValidationError, responseHandler,} from './utils';
 import SwaggerOptions from './config/swagger';
 import {pinoConfig,} from './config/pino';
-import {tokenValidate} from "./utils/auth";
 
 const HapiSwagger = require('hapi-swagger');
 const Package = require('../../package.json');

@@ -3,7 +3,7 @@ import { Boom, } from '@hapi/boom';
 import * as FileType from 'file-type';
 import * as speakeasy from 'speakeasy';
 import config from '../config/config';
-import { UserAvatar, } from '../models/UserAvatar';
+
 
 interface IFileWithExt {
   data: Buffer;
@@ -82,30 +82,4 @@ export async function handleValidationError(r, h, err) {
   );
 }
 
-export const getFileExt = async (file: Buffer): Promise<IFileWithExt> => {
-  if (!Buffer.isBuffer(file)) {
-    throw error(400000, 'This file type is now allowed', null);
-  }
 
-  const fileExt = await FileType.fromBuffer(file);
-  if (!fileExt || !fileExt.ext.match(config.files.allowedExtensions)) {
-    throw error(400000, 'This file type is now allowed', null);
-  }
-
-  return { data: file, fileExt: fileExt.ext, };
-};
-
-export const saveImage = async (userId: string, file: Buffer) => {
-  try {
-    const fileWithExt = await getFileExt(file);
-    console.log(fileWithExt.fileExt);
-    // await UserAvatar.create({
-    //   data: fileWithExt.data,
-    //   userId,
-    //   ext: fileWithExt.fileExt,
-    // });
-  }
-  catch (err) {
-    throw err;
-  }
-};
