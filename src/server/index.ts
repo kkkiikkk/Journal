@@ -59,18 +59,10 @@ const init = async () => {
         },
         {
             plugin: HapiCors,
-            options: config.cors,
         }
     ]);
 
-    // JWT Auth
-    server.auth.strategy('jwt-access', 'bearer-access-token', {
-        validate: tokenValidate('access'),
-    });
-    server.auth.strategy('jwt-refresh', 'bearer-access-token', {
-        validate: tokenValidate('refresh'),
-    });
-    server.auth.default('jwt-access');
+
 
     // Загружаем маршруты
     server.route(routes);
