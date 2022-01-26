@@ -3,15 +3,6 @@ import * as bcrypt from 'bcrypt';
 import { getUUID, } from '../utils';
 import { Session } from './Session';
 
-type UserPayload = {
-  username: string,
-  email: string,
-  password: string,
-  phone: string,
-  dateOfBirth: string,
-  sex: string
-}
-
 /**
  * 
  * Structure of the User model table
@@ -76,11 +67,9 @@ export class User extends Model {
 
   }
 
-  static createUser = async function (user: UserPayload) {
+  static createUser = async function (user) {
 
-    const id = getUUID();
     await this.create({
-      id: id, 
       username: user.username, 
       email: user.email, 
       password: user.password, 
