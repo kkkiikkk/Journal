@@ -4,6 +4,8 @@ import * as Boom from '@hapi/boom'
 import { Session } from '../../models/Session';
 import { generateJwt } from '../../utils/auth';
 import {Errors} from '../../utils/errors'
+import { University } from '../../models/University';
+import { Profile } from '../../models/Profile';
 
 
 export const createUser = async (r) => {
@@ -58,4 +60,41 @@ export const authUser = async (r) => {
     access: token.access
   }
 
+}
+
+export const createProfile = async (r) => {
+
+  const university = await University.findOne({
+    where: {
+      name: r.payload.university
+    }
+  })
+
+  
+
+  if (!university) {
+    error(Errors.NotFound, 'Not Found University', {})
+  }
+
+  const profile = await Profile.findOne({
+    where:{
+      userId: r.auth.credentials.id,
+      universityId: university.id,
+    }
+  })
+
+  if (!profile) {
+    await Profile.createProfile({
+      userId: r.auth.credentials.id,
+      universityId: university.id,
+      faculty: r.payload.faculty,
+      university: r.payload.university,
+      group: r.payload.group,
+      type: r.payload.group ? 'student' : 'teacher'
+    })
+
+    return 'Created'
+  }
+
+  return error(Errors.InvalidPayload, 'Invalid', {})
 }

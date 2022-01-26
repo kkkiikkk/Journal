@@ -35,3 +35,13 @@ export const userLogin = Joi.object({
     .max(24)    
     .required()  
 })
+
+export const profile = Joi.object({
+  faculty: Joi.string()
+    .required(),
+  university: Joi.string() 
+    .valid('ЗГИА', 'ЗНТУ', 'ЗНУ')
+    .required(),
+  group: Joi.string(),
+  
+})

@@ -1,5 +1,5 @@
-import {  createUser, authUser } from '../../api/v1/user';
-import {  user, userLogin} from '../../schemes';
+import {  createUser, authUser, createProfile } from '../../api/v1/user';
+import {  profile, user, userLogin} from '../../schemes';
 
 export default [
   {
@@ -27,5 +27,18 @@ export default [
       }
     },
     handler: authUser
+  },
+  {
+    method: 'POST',
+    path: '/v1/user/registerProfile',
+    options: {
+      auth: 'jwt-access',
+      id:'v1.register.profile',
+      tags:['api', 'v1', 'user', 'createProfile'],
+      validate: {
+        payload: profile
+      }
+    },
+    handler: createProfile
   },
 ]
