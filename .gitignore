@@ -28,3 +28,16 @@ build/
 .DS_Store/
 
 package-lock.json
+tsconfig.json
+README.md
+package.json
+LICENSE
+env.example
+app.json
+.prettierrc
+.eslintrc
+.eslintignore
+test
+docs
+ci-scripts
+.github
