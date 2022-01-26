@@ -1,6 +1,8 @@
-import { Column, DataType, Model, Scopes, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Scopes, Table } from 'sequelize-typescript';
 import * as bcrypt from 'bcrypt';
 import { getUUID, } from '../utils';
+import { Session } from './Session';
+import { Profile } from './Profile';
 
 type UserPayload = {
   username: string,
@@ -66,6 +68,11 @@ export class User extends Model {
   @Column({type: DataType.STRING, allowNull: false, })
   sex: string;
 
+  @HasMany(() => Session)
+  session: Session[]
+
+  @HasMany(() => Profile)
+  profile: Profile[]
 
   async passwordCompare(pwd: string) {
 

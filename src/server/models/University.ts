@@ -26,6 +26,8 @@ export class University extends Model {
 
     @BelongsTo(() => User)
     user: User;
+
+    
     static createProfileUniversity = async function (profile: ProfileType) {
 
         const id = getUUID();
