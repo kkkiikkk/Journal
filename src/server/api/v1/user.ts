@@ -52,7 +52,7 @@ export const authUser = async (r) => {
 
   const createSession = await Session.newSession(user.id)
 
-  const token = generateJwt(createSession)
+  const token = generateJwt(createSession.dataValues)
 
   return {
     access: token.access
