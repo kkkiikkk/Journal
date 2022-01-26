@@ -2,6 +2,11 @@ import * as Hapi from '@hapi/hapi';
 import * as Qs from 'qs';
 import config from './config/config';
 import {handleValidationError} from './utils';
+import { dbInit } from './models';
+import { tokenValidate, } from './utils/auth';
+import * as HapiBearer from 'hapi-auth-bearer-token';
+import routes from './routes';
+
 
 const init = async () => {
     const server = await new Hapi.Server({
@@ -25,6 +30,21 @@ const init = async () => {
     });
     server.realm.modifiers.route.prefix = '/api';
 
+    await server.register([
+        HapiBearer,
+    ])
+
+    // JWT Auth
+  server.auth.strategy('jwt-access', 'bearer-access-token', {
+    validate: tokenValidate('access'),
+  });
+
+  server.auth.default('jwt-access');
+
+    await dbInit()
+
+    // Загружаем маршруты
+  server.route(routes);
 
     // Запускаем сервер
     try {
