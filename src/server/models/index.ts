@@ -8,4 +8,3 @@ const sequelize = new Sequelize(config.dbLink, {
   models: [User, Session],
 });
 sequelize.sync();
-export default sequelize;
