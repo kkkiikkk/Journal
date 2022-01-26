@@ -24,9 +24,7 @@ export class Session extends Model {
 
   static newSession = async function (idUser: string) {
 
-    const session = await this.create({ idUser });
-
-    return session.dataValues;
+    return await this.create({ idUser });
   }
 
 }

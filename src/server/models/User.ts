@@ -67,7 +67,7 @@ export class User extends Model {
 
   }
 
-  static createUser = async function (user) {
+  static createUser = async function (user: User) {
 
     await this.create({
       username: user.username, 
