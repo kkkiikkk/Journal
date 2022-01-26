@@ -1,5 +1,5 @@
-import {  createUser, authUser, createProfile } from '../../api/v1/user';
-import {  profile, user, userLogin} from '../../schemes';
+import {  createUser, authUser, createProfile, updateUser } from '../../api/v1/user';
+import {  profile, user, userLogin, userUpdate} from '../../schemes';
 
 export default [
   {
@@ -41,4 +41,17 @@ export default [
     },
     handler: createProfile
   },
+  {
+    method: 'PUT',
+    path: '/v1/updateUser',
+    options: {
+      auth: 'jwt-access',
+      id: 'v1.updateUser.post',
+      tags:['api', 'v1', 'updateUser'],
+      validate: {
+        payload: userUpdate
+      }
+    },
+    handler: updateUser
+  }
 ]

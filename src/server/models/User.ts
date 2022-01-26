@@ -4,11 +4,6 @@ import { getUUID, } from '../utils';
 import { Session } from './Session';
 import { Profile } from './Profile';
 
-/**
- * 
- * Structure of the User model table
- * 
- */
 @Scopes(() => ({
   defaultScope: {
     attributes: {

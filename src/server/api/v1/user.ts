@@ -70,8 +70,6 @@ export const createProfile = async (r) => {
     }
   })
 
-  
-
   if (!university) {
     error(Errors.NotFound, 'Not Found University', {})
   }
@@ -97,4 +95,31 @@ export const createProfile = async (r) => {
   }
 
   return error(Errors.InvalidPayload, 'Profile already exists', {})
+}
+
+export const updateUser = async (r) => {
+  
+  const user = await User.findOne({
+    where: {
+      id: r.auth.credentials.id
+    }
+  })
+
+  user.set({
+    username: r.payload.username,
+    password: r.payload.password,
+    phone: r.payload.phone,
+    dateOfBirth: r.payload.dateOfBirth,
+    sex: r.payload.sex
+  })
+
+  await user.save()
+
+  return output({
+    username: r.payload.username, 
+    email: r.payload.email, 
+    phone: r.payload.phone, 
+    dateOfBirth: r.payload.dateOfBirth,
+    sex: r.payload.sex
+  })
 }

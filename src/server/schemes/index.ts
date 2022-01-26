@@ -45,3 +45,21 @@ export const profile = Joi.object({
   group: Joi.string(),
   
 })
+
+export const userUpdate = Joi.object({
+  username: Joi.string()
+    .required(),
+  password: Joi.string()
+    .min(6)
+    .max(24)
+    .required(),
+  phone: Joi.string()
+    .regex(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
+    .required(),
+  dateOfBirth: Joi.date()
+    .raw()
+    .required(),
+  sex: Joi.string()
+    .valid('male', 'female')
+    .required()
+})
