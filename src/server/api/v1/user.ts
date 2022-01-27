@@ -108,8 +108,6 @@ export const updateUser = async (r) => {
   return output(user)
 }
 
-// 43b79204-b609-4d2e-9d1d-8e2a9ee41080
-
 export const updateProfile = async (r) => {
 
   const profile = await Profile.findOne({
