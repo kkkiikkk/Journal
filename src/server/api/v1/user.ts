@@ -19,14 +19,9 @@ export const createUser = async (r) => {
 
   if (!user) {
 
-    await User.createUser(r.payload)
+    const user = await User.createUser(r.payload)
 
-    return output({
-      username: r.payload.username, 
-      email: r.payload.email, 
-      phone: r.payload.phone, 
-      sex: r.payload.sex
-    })
+    return output(user)
 
   }
 
@@ -54,7 +49,7 @@ export const authUser = async (r) => {
 
   const createSession = await Session.newSession(user.id)
 
-  const token = generateJwt(createSession.dataValues)
+  const token = generateJwt(createSession)
 
   return {
     access: token.access
@@ -73,7 +68,7 @@ export const createProfile = async (r) => {
   
 
   if (!university) {
-    error(Errors.NotFound, 'Not Found University', {})
+    return error(Errors.NotFound, 'Not Found University', {})
   }
 
   const profile = await Profile.findOne({
@@ -84,7 +79,7 @@ export const createProfile = async (r) => {
   })
 
   if (!profile) {
-    const profileCreate = await Profile.createProfile({
+    const  profileCreated  = await Profile.createProfile({
       userId: r.auth.credentials.id,
       universityId: university.id,
       faculty: r.payload.faculty,
@@ -93,7 +88,7 @@ export const createProfile = async (r) => {
       type: r.payload.group ? 'student' : 'teacher'
     })
 
-    return output(profileCreate.dataValues)
+    return output(profileCreated)
   }
 
   return error(Errors.InvalidPayload, 'Profile already exists', {})

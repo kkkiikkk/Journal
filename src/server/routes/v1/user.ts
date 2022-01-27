@@ -30,10 +30,10 @@ export default [
   },
   {
     method: 'POST',
-    path: '/v1/user/registerProfile',
+    path: '/v1/user/createProfile',
     options: {
       auth: 'jwt-access',
-      id:'v1.register.profile',
+      id:'v1.create.profile',
       tags:['api', 'v1', 'user', 'createProfile'],
       validate: {
         payload: profile

@@ -12,7 +12,7 @@ export class University extends Model {
     @Column({ primaryKey: true, type: DataType.STRING, defaultValue: () => getUUID(), })
     id: string;
 
-    @Column({ type: DataType.STRING, allowNull: false })
+    @Column({ type: DataType.ENUM('ЗНТУ', 'ЗНУ', 'ЗГИА'),  allowNull: false })
     name: string;
 
     
