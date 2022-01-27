@@ -17,14 +17,9 @@ export const createUser = async (r) => {
 
   if (!user) {
 
-    await User.createUser(r.payload)
+    const userCreated = await User.createUser(r.payload)
 
-    return output({
-      username: r.payload.username, 
-      email: r.payload.email, 
-      phone: r.payload.phone, 
-      sex: r.payload.sex
-    })
+    return output(userCreated)
 
   }
 
@@ -52,7 +47,7 @@ export const authUser = async (r) => {
 
   const createSession = await Session.newSession(user.id)
 
-  const token = generateJwt(createSession.dataValues)
+  const token = generateJwt(createSession)
 
   return {
     access: token.access
