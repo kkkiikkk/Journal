@@ -1,8 +1,19 @@
 import { v4 as uuidv4, } from 'uuid';
 import { Boom, } from '@hapi/boom';
+import {University} from '../models/University'
+
 
 export function getUUID(): string {
   return uuidv4();
+}
+
+export async function createUniversity(): Promise<void> {
+
+  await University.createUniversity('ЗНУ')
+  
+  await University.createUniversity('ЗНТУ')
+  
+  await University.createUniversity('ЗГИА')
 }
 
 export function output(res?: object | null): object {
