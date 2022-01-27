@@ -108,3 +108,40 @@ export const updateUser = async (r) => {
   return output(user)
 }
 
+// 43b79204-b609-4d2e-9d1d-8e2a9ee41080
+
+export const updateProfile = async (r) => {
+
+  const profile = await Profile.findOne({
+    where: {
+      id: r.params.id
+    }
+  })
+
+  if(!profile) {
+    return error(Errors.NotFound, 'Profile not found', {})
+  }
+
+  const teacher = await Profile.findOne({
+    where: {
+      userId: r.auth.credentials.id,
+      type: 'teacher',
+      university: profile.university
+    }
+  })
+
+  if(!teacher) {
+    return error(Errors.NotFound, 'You not teacher', {})
+  }
+  
+  if (teacher.university === profile.university) {
+
+    profile.update(r.payload)
+
+    profile.save()
+
+    return output(profile)
+  }
+
+  return error(Errors.InvalidPayload, 'Other university', {})
+}
