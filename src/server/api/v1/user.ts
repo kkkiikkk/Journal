@@ -254,3 +254,36 @@ export const averageRaiting = async (r) => {
   return output({average: sum / grades.length})
 }
 
+
+export const averageRaitingFaculty = async (r) => {
+
+  const teacher = await Profile.findOne({
+    where: {
+      type: 'teacher',
+      faculty: r.payload.faculty,
+      userId: r.auth.credentials.id,
+      university: r.payload.university
+    }
+  })
+
+  if(!teacher) {
+    return error(Errors.NotFound, 'You not teacher', {})
+  }
+
+  const grades = await Grade.findAll({
+   where: {
+     teacherId: teacher.id
+   } 
+  })
+
+  if (!grades) {
+    return error(Errors.NotFound, 'Havent grades', {})
+  }
+
+  let sum = 0;
+
+  grades.map((grades) => sum =+ grades.grade )
+
+  return output({average: sum / grades.length})
+
+}
