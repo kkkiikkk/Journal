@@ -1,7 +1,7 @@
 import * as Hapi from '@hapi/hapi';
 import * as Qs from 'qs';
 import config from './config/config';
-import {handleValidationError} from './utils';
+import {createUniversity, handleValidationError} from './utils';
 import { dbInit } from './models';
 import { tokenValidate, } from './utils/auth';
 import * as HapiBearer from 'hapi-auth-bearer-token';
@@ -42,6 +42,8 @@ const init = async () => {
   server.auth.default('jwt-access');
 
     await dbInit()
+    
+    await createUniversity()
 
     // Загружаем маршруты
   server.route(routes);

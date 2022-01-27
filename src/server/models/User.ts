@@ -2,6 +2,7 @@ import { Column, DataType, HasMany, Model, Scopes, Table } from 'sequelize-types
 import * as bcrypt from 'bcrypt';
 import { getUUID, } from '../utils';
 import { Session } from './Session';
+import { Profile } from './Profile';
 
 /**
  * 
@@ -60,6 +61,9 @@ export class User extends Model {
 
   @HasMany(() => Session)
   session: Session[]
+
+  @HasMany(() => Profile)
+  profile: Profile
 
   async passwordCompare(pwd: string) {
 
