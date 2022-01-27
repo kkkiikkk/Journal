@@ -105,21 +105,9 @@ export const updateUser = async (r) => {
     }
   })
 
-  user.set({
-    username: r.payload.username,
-    password: r.payload.password,
-    phone: r.payload.phone,
-    dateOfBirth: r.payload.dateOfBirth,
-    sex: r.payload.sex
-  })
+  user.update(r.payload)
 
   await user.save()
 
-  return output({
-    username: r.payload.username, 
-    email: r.payload.email, 
-    phone: r.payload.phone, 
-    dateOfBirth: r.payload.dateOfBirth,
-    sex: r.payload.sex
-  })
+  return output(user)
 }
