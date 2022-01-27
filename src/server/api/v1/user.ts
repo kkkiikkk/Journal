@@ -216,3 +216,41 @@ export const updateGrade = async (r) => {
 
 
 }
+
+export const averageRaiting = async (r) => {
+
+  const profile = await Profile.findOne({
+    where:{
+      id: r.params.id
+    },
+    include: Grade
+  })
+
+  if (!profile){
+    return error(Errors.NotFound, 'Profile not Found', {})
+  }
+
+  const userProfile = await Profile.findOne({
+    where: {
+      userId: r.auth.credentials.id,
+      university: profile.university,
+      faculty: profile.faculty
+    }
+  })
+
+  if(!userProfile) {
+    return error(Errors.NotFound, 'Profie Not Found', {})
+  }
+
+  const grades = await Grade.findAll({
+    where: {
+      studentId: r.params.id
+    }
+  })
+
+  let sum = 0
+  
+  grades.map(grade => sum =+ grade.grade  )
+
+  return output({average: sum / grades.length})
+}

@@ -1,4 +1,4 @@
-import {  createUser, authUser, createProfile, updateUser, updateProfile, createGrade, updateGrade } from '../../api/v1/user';
+import {  createUser, authUser, createProfile, updateUser, updateProfile, createGrade, updateGrade, averageRaiting } from '../../api/v1/user';
 import {  grade, profile, user, userLogin, userUpdate} from '../../schemes';
 
 export default [
@@ -92,6 +92,16 @@ export default [
       }
     },
     handler: updateGrade
+  },
+  {
+    method: 'GET',
+    path: '/v1/profiles/averageRaiting/{id}',
+    options: {
+      auth: 'jwt-access',
+      id: 'v1.profiles.averageRaiting.id.get',
+      tags: ['api', 'v1', 'profiles', 'averageRaiting', 'id']
+    },
+    handler: averageRaiting
   }
   
 ]
