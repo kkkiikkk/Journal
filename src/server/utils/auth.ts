@@ -37,7 +37,7 @@ export function tokenValidate(tokenType: 'access' | 'refresh'): validateFunc {
         })
 
         if(!seesion) {
-            throw Boom.notFound('Not found session')
+            return error(Errors.NotFound ,'Not found session', {})
         }
 
         const user = await User.findOne({

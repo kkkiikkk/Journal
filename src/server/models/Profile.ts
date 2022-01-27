@@ -9,7 +9,6 @@ type ProfileType = {
     faculty: string,
     university: string,
     group: string,
-    type: string
 }
 
 @Table({
@@ -38,7 +37,9 @@ export class Profile extends Model {
     @Column({ type: DataType.STRING })
     group: string;
 
-    @Column({ type: DataType.STRING, allowNull: false })
+    @Column({ type: DataType.STRING, allowNull: false, defaultValue:function (group: string) {
+        return group ? 'student' : 'teacher'
+    }})
     type: string;
 
     @BelongsTo(() => User)
@@ -55,7 +56,6 @@ export class Profile extends Model {
             faculty: profile.faculty,
             university: profile.university,
             group: profile.group,
-            type: profile.type
         })
 
     }
