@@ -17,7 +17,7 @@ export class University extends Model {
 
     
     static createUniversity = async function (university: string) {
-
+        
         return await this.create({
             name: university,
         })
