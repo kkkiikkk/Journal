@@ -222,8 +222,7 @@ export const averageRaiting = async (r) => {
   const profile = await Profile.findOne({
     where:{
       id: r.params.id
-    },
-    include: Grade
+    }
   })
 
   if (!profile){
@@ -249,8 +248,9 @@ export const averageRaiting = async (r) => {
   })
 
   let sum = 0
-  
+
   grades.map(grade => sum =+ grade.grade  )
 
   return output({average: sum / grades.length})
 }
+
