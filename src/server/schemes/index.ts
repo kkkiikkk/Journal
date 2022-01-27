@@ -63,3 +63,10 @@ export const userUpdate = Joi.object({
     .valid('male', 'female')
     .required()
 })
+
+export const grade = Joi.object({
+  lesson: Joi.string()
+    .required(),
+  grade: Joi.number()
+  .required()
+})

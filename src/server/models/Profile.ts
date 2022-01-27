@@ -1,5 +1,6 @@
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
 import { getUUID } from '../utils';
+import { Grade } from './Grade';
 import { University } from './University';
 import { User } from './User';
 
@@ -50,6 +51,9 @@ export class Profile extends Model {
 
     @BelongsTo(() => University)
     univers: University;
+
+    @HasMany(() => Grade)
+    grades: Grade[]
 
     static createProfile = async function (profile: ProfileType) {
 

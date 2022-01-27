@@ -58,7 +58,7 @@ export class User extends Model {
   session: Session[]
 
   @HasMany(() => Profile)
-  profile: Profile
+  profile: Profile[]
 
   async passwordCompare(pwd: string) {
 

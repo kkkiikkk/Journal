@@ -6,6 +6,7 @@ import { generateJwt } from '../../utils/auth';
 import {Errors} from '../../utils/errors'
 import { University } from '../../models/University';
 import { Profile } from '../../models/Profile';
+import { Grade } from '../../models/Grade';
 
 
 export const createUser = async (r) => {
@@ -142,4 +143,46 @@ export const updateProfile = async (r) => {
   }
 
   return error(Errors.InvalidPayload, 'Other university', {})
+}
+
+export const createGrade = async (r) => {
+
+  const { grade, lesson } = r.payload 
+
+  const profile = await Profile.findOne({
+    where: {
+      id: r.params.id
+    }
+  })
+
+  if(!profile) {
+    return error(Errors.NotFound, 'Profile not found', {})
+  }
+
+  const teacher = await Profile.findOne({
+    where: {
+      userId: r.auth.credentials.id,
+      type: 'teacher',
+      university: profile.university
+    }
+  })
+
+  if(!teacher) {
+    return error(Errors.NotFound, 'You not teacher', {})
+  }
+
+  const isUniversity = teacher.university === profile.university
+  const isFaculty = teacher.faculty === profile.faculty
+
+  if (isUniversity && isFaculty) {
+    const gradeCreated = await Grade.createGrade({grade, lesson,
+      teacherId: teacher.id,
+      studentId: profile.id
+    })
+
+    return output(gradeCreated)
+  }
+
+  return error(Errors.NotFound, 'Other faculty or university', {})
+
 }
