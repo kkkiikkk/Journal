@@ -59,7 +59,9 @@ export const authUser = async (r) => {
 
 export const createProfile = async (r) => {
 
-  const university = await University.findOne({
+  const {faculty, university, group} = r.payload
+
+  const findUniversity = await University.findOne({
     where: {
       name: r.payload.university
     }
@@ -67,7 +69,7 @@ export const createProfile = async (r) => {
 
   
 
-  if (!university) {
+  if (!findUniversity) {
     return error(Errors.NotFound, 'Not Found University', {})
   }
 
@@ -79,12 +81,9 @@ export const createProfile = async (r) => {
   })
 
   if (!profile) {
-    const  profileCreated  = await Profile.createProfile({
+    const  profileCreated  = await Profile.createProfile({faculty, university, group, 
       userId: r.auth.credentials.id,
-      universityId: university.id,
-      faculty: r.payload.faculty,
-      university: r.payload.university,
-      group: r.payload.group
+      universityId: findUniversity.id
     })
 
     return output(profileCreated)
