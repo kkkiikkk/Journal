@@ -1,5 +1,9 @@
-
+import { v4 as uuidv4, } from 'uuid';
 import { Boom, } from '@hapi/boom';
+
+export function getUUID(): string {
+  return uuidv4();
+}
 
 export function output(res?: object | null): object {
   return {
