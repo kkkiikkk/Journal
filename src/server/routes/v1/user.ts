@@ -1,4 +1,4 @@
-import {  createUser, authUser, createProfile, updateUser, updateProfile, createGrade } from '../../api/v1/user';
+import {  createUser, authUser, createProfile, updateUser, updateProfile, createGrade, updateGrade } from '../../api/v1/user';
 import {  grade, profile, user, userLogin, userUpdate} from '../../schemes';
 
 export default [
@@ -79,7 +79,19 @@ export default [
       },
     },
     handler: createGrade
+  },
+  {
+    method: 'PUT',
+    path: '/v1/profiles/gradeUpdate/{gradeId}',
+    options: {
+      auth: 'jwt-access',
+      id: 'v1.profiles.grade.update.id.put',
+      tags: ['api', 'v1', 'profiles', 'grade', 'update'],
+      validate: {
+        payload: grade
+      }
+    },
+    handler: updateGrade
   }
   
 ]
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJkZjRkMGIzLWNlYTQtNGIwNC1hNDllLTI1ZDYzY2IxOTI5MCIsImlkVXNlciI6ImRiMTRmZGExLWJhYTktNDMzYS05OGQzLTZjYjI4MzAzY2EzOSIsImlhdCI6MTY0MzMxMjY5NSwiZXhwIjoxNjQzMzIxNjk1fQ.Rkaa_XyBtUTzwDHMpDlF_jELyTo5R65Elo4_t36X-Kw

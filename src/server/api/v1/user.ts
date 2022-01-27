@@ -186,3 +186,33 @@ export const createGrade = async (r) => {
   return error(Errors.NotFound, 'Other faculty or university', {})
 
 }
+
+export const updateGrade = async (r) => {
+
+  const grade = await Grade.findOne({
+    where: {
+      id: r.params.gradeId
+    }
+  })
+
+  if (!grade) {
+    return error(Errors.NotFound, 'Not Found Grade', {})
+  }
+
+  const teacher = await Profile.findOne({
+    where: {
+      userId: r.auth.credentials.id,
+      id: grade.teacherId,
+    }
+  })
+
+  if(!teacher) {
+    return error(Errors.NotFound, 'You not teacher', {})
+  }
+
+  grade.update(r.payload)
+
+  return output(grade)
+
+
+}
