@@ -9,7 +9,9 @@ type ProfileType = {
     faculty: string,
     university: string,
     group: string,
+    type: string
 }
+
 
 @Table({
     timestamps: false,
@@ -37,9 +39,10 @@ export class Profile extends Model {
     @Column({ type: DataType.STRING })
     group: string;
 
-    @Column({ type: DataType.STRING, allowNull: false, defaultValue:function (group: string) {
-        return group ? 'student' : 'teacher'
-    }})
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
     type: string;
 
     @BelongsTo(() => User)
@@ -50,13 +53,7 @@ export class Profile extends Model {
 
     static createProfile = async function (profile: ProfileType) {
 
-        return await this.create({
-            userId: profile.userId,
-            universityId: profile.universityId,
-            faculty: profile.faculty,
-            university: profile.university,
-            group: profile.group,
-        })
+        return await this.create(profile)
 
     }
 }

@@ -44,10 +44,10 @@ export class User extends Model {
     },
   })
   password: string;
-  
+
   @Column({type: DataType.STRING, allowNull: false})
   phone: string;
-  
+
   @Column({type: DataType.DATE, allowNull:false,})
   dateOfBirth: Date;
 
@@ -68,15 +68,8 @@ export class User extends Model {
 
   static createUser = async function (user: User) {
 
-    await this.create({
-      username: user.username, 
-      email: user.email, 
-      password: user.password, 
-      phone: user.phone, 
-      dateOfBirth: user.dateOfBirth, 
-      sex: user.sex
-    })
-    
+    return await this.create(user)
+
 
   }
 }

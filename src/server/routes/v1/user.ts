@@ -53,5 +53,6 @@ export default [
       }
     },
     handler: updateUser
-  }
+  },
+  
 ]

@@ -9,7 +9,7 @@ import { Profile } from '../../models/Profile';
 
 
 export const createUser = async (r) => {
-  
+
 
   const user = await User.findOne({
     where: {
@@ -21,7 +21,7 @@ export const createUser = async (r) => {
 
     const userCreated = await User.createUser(r.payload)
 
-    return output({userCreated})
+    return output(userCreated)
 
   }
 
@@ -33,9 +33,9 @@ export const authUser = async (r) => {
   const user = await User.scope('withPassword').findOne({
     where: {
       email: r.payload.email
-    }    
+    }
   })
-   
+
 
   if (!user) {
     return error(Errors.NotFound, 'User Not Found', {})
@@ -49,7 +49,7 @@ export const authUser = async (r) => {
 
   const createSession = await Session.newSession(user.id)
 
-  const token = generateJwt(createSession)
+  const token = generateJwt(createSession.dataValues)
 
   return {
     access: token.access
@@ -68,21 +68,24 @@ export const createProfile = async (r) => {
   })
 
   if (!findUniversity) {
-    error(Errors.NotFound, 'Not Found University', {})
+    return error(Errors.NotFound, 'Not Found University', {})
   }
 
   const profile = await Profile.findOne({
     where:{
       userId: r.auth.credentials.id,
-      universityId: university.id,
+      universityId: findUniversity.id,
     }
   })
 
   if (!profile) {
     const profileCreate = await Profile.createProfile({university, faculty, group,
       userId: r.auth.credentials.id,
-      universityId: university.id,
+      universityId: findUniversity.id,
+      type: group ? 'student' : 'teacher' 
     })
+
+
 
     return output(profileCreate)
   }
@@ -91,7 +94,7 @@ export const createProfile = async (r) => {
 }
 
 export const updateUser = async (r) => {
-  
+
   const user = await User.findOne({
     where: {
       id: r.auth.credentials.id
@@ -104,3 +107,4 @@ export const updateUser = async (r) => {
 
   return output(user)
 }
+
