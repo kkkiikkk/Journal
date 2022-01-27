@@ -8,8 +8,7 @@ type ProfileType = {
     universityId: string,
     faculty: string,
     university: string,
-    group: string,
-    type: string
+    group: string
 }
 
 @Table({

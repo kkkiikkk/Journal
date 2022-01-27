@@ -84,8 +84,7 @@ export const createProfile = async (r) => {
       universityId: university.id,
       faculty: r.payload.faculty,
       university: r.payload.university,
-      group: r.payload.group,
-      type: r.payload.group ? 'student' : 'teacher'
+      group: r.payload.group
     })
 
     return output(profileCreated)
