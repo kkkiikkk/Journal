@@ -7,6 +7,7 @@ import {Errors} from '../../utils/errors'
 import { University } from '../../models/University';
 import { Profile } from '../../models/Profile';
 import { Grade } from '../../models/Grade';
+import {fn, col} from 'sequelize'
 
 
 export const createUser = async (r) => {
@@ -234,7 +235,7 @@ export const averageRaiting = async (r) => {
       userId: r.auth.credentials.id,
       university: profile.university,
       faculty: profile.faculty
-    }
+    },
   })
 
   if(!userProfile) {
@@ -244,14 +245,14 @@ export const averageRaiting = async (r) => {
   const grades = await Grade.findAll({
     where: {
       studentId: r.params.id
-    }
+    },
+    attributes: [
+      [fn('AVG', col('grade')), 'avgRating'],
+    ]
   })
 
-  let sum = 0
 
-  grades.map(grade => sum =+ grade.grade  )
-
-  return output({average: sum / grades.length})
+  return output(grades)
 }
 
 

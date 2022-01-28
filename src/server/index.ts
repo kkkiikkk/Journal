@@ -43,14 +43,14 @@ const init = async () => {
 
     await dbInit()
     
-    await createUniversity()
-
+    
     // Загружаем маршруты
-  server.route(routes);
-
+    server.route(routes);
+    
     // Запускаем сервер
     try {
         await server.start();
+        await createUniversity()
         server.log('info', `Server running at: ${server.info.uri}`);
     } catch (err) {
         server.log('error', JSON.stringify(err));

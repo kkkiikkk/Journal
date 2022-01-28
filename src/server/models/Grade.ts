@@ -27,8 +27,8 @@ export class Grade extends Model {
     @Column({ type: DataType.STRING, allowNull: false })
     studentId: string;
 
-    @Column({ type: DataType.STRING, allowNull: false })
-    grade: string;
+    @Column({ type: DataType.INTEGER, allowNull: false })
+    grade: number;
 
     @Column({ type: DataType.STRING, allowNull: false })
     lesson: string;
