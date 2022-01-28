@@ -210,7 +210,7 @@ export const updateGrade = async (r) => {
     return error(Errors.NotFound, 'You not teacher', {})
   }
 
-  grade.update(r.payload)
+  await grade.update(r.payload)
 
   return output(grade)
 

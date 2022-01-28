@@ -82,7 +82,7 @@ export default [
   },
   {
     method: 'PUT',
-    path: '/v1/profiles/gradeUpdate/{gradeId}',
+    path: '/v1/grades/{gradeId}/gradeUpdate',
     options: {
       auth: 'jwt-access',
       id: 'v1.profiles.grade.update.id.put',
