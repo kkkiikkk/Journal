@@ -36,15 +36,24 @@ export const userLogin = Joi.object({
     .required()  
 })
 
+const faculty = Joi.string().required()
+const university  = Joi.string().valid('ЗГИА', 'ЗНТУ', 'ЗНУ').required()
+const group = Joi.string()
+
 export const profile = Joi.object({
-  faculty: Joi.string()
-    .required(),
-  university: Joi.string() 
-    .valid('ЗГИА', 'ЗНТУ', 'ЗНУ')
-    .required(),
-  group: Joi.string(),
-  
+  faculty: faculty,
+  university: university,
+  group: group
 })
+
+export const profileUpdate = Joi.object({
+  faculty: faculty,
+  university: university,
+  group: group
+    .required()
+})
+
+
 
 export const userUpdate = Joi.object({
   username: Joi.string()

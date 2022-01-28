@@ -112,7 +112,8 @@ export const updateProfile = async (r) => {
 
   const profile = await Profile.findOne({
     where: {
-      id: r.params.id
+      id: r.params.id,
+      type: 'student'
     }
   })
 
@@ -132,14 +133,8 @@ export const updateProfile = async (r) => {
     return error(Errors.NotFound, 'You not teacher', {})
   }
   
-  if (teacher.university === profile.university) {
+  await profile.update(r.payload)
 
-    profile.update(r.payload)
-
-    profile.save()
-
-    return output(profile)
-  }
-
-  return error(Errors.InvalidPayload, 'Other university', {})
+  return output(profile)
+  
 }

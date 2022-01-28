@@ -1,5 +1,5 @@
 import {  createUser, authUser, createProfile, updateUser, updateProfile } from '../../api/v1/user';
-import {  profile, user, userLogin, userUpdate} from '../../schemes';
+import {  profile, profileUpdate, user, userLogin, userUpdate} from '../../schemes';
 
 export default [
   {
@@ -62,7 +62,7 @@ export default [
       id: 'v1.profiles.id.put',
       tags:['api', 'v1', 'profiles', 'id'], 
       validate: {
-        payload: profile
+        payload: profileUpdate
       },
     },
     handler: updateProfile
