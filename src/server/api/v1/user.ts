@@ -7,6 +7,7 @@ import {Errors} from '../../utils/errors'
 import { University } from '../../models/University';
 import { Profile } from '../../models/Profile';
 import { Grade } from '../../models/Grade';
+import { col, fn } from 'sequelize';
 
 
 export const createUser = async (r) => {
@@ -272,18 +273,19 @@ export const averageRaitingFaculty = async (r) => {
   const grades = await Grade.findAll({
    where: {
      teacherId: teacher.id
-   } 
+   },
+   attributes: [
+    [fn('AVG', col('grade')), 'avgRating'],
+   ] 
   })
 
   if (!grades) {
     return error(Errors.NotFound, 'Havent grades', {})
   }
 
-  let sum = 0;
 
-  grades.map((grades) => sum =+ grades.grade )
 
-  return output({average: sum / grades.length})
+  return output(grades)
 
 }
 
