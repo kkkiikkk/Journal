@@ -101,9 +101,7 @@ export const updateUser = async (r) => {
     }
   })
 
-  user.update(r.payload)
-
-  await user.save()
+  await user.update(r.payload)
 
   return output(user)
 }

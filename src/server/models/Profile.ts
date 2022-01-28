@@ -12,7 +12,6 @@ type ProfileType = {
     type: string
 }
 
-
 @Table({
     timestamps: false,
     tableName: 'Profile'
@@ -39,10 +38,7 @@ export class Profile extends Model {
     @Column({ type: DataType.STRING })
     group: string;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: false,
-    })
+    @Column({ type: DataType.STRING, allowNull: false, defaultValue: 'teacher'})
     type: string;
 
     @BelongsTo(() => User)
