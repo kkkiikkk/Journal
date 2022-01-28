@@ -7,7 +7,7 @@ import {Errors} from '../../utils/errors'
 import { University } from '../../models/University';
 import { Profile } from '../../models/Profile';
 import { Grade } from '../../models/Grade';
-import {fn, col} from 'sequelize'
+import {fn, col, Op} from 'sequelize'
 
 
 export const createUser = async (r) => {
@@ -222,7 +222,8 @@ export const averageRaiting = async (r) => {
 
   const profile = await Profile.findOne({
     where:{
-      id: r.params.id
+      id: r.params.id,
+      type: 'student'
     }
   })
 
@@ -234,7 +235,8 @@ export const averageRaiting = async (r) => {
     where: {
       userId: r.auth.credentials.id,
       university: profile.university,
-      faculty: profile.faculty
+      faculty: profile.faculty,
+      type: 'teacher'
     },
   })
 
@@ -244,7 +246,14 @@ export const averageRaiting = async (r) => {
 
   const grades = await Grade.findAll({
     where: {
-      studentId: r.params.id
+      [Op.or]: [
+        {
+          studentId: r.params.id,
+        },
+        {
+          teacherId: userProfile.id
+        }
+      ]
     },
     attributes: [
       [fn('AVG', col('grade')), 'avgRating'],

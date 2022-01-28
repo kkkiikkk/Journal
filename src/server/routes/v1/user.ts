@@ -104,7 +104,7 @@ export default [
   },
   {
     method: 'GET',
-    path: '/v1/profiles/averageRaiting/{id}',
+    path: '/v1/profiles/{id}/grades/averageRaiting',
     options: {
       auth: 'jwt-access',
       id: 'v1.profiles.averageRaiting.id.get',
