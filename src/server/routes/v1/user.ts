@@ -69,7 +69,7 @@ export default [
   },
   {
     method: 'POST',
-    path: '/v1/profiles/createGrade/{id}',
+    path: '/v1/profiles/{id}/createGrade',
     options: {
       auth: 'jwt-access',
       id: 'v1.profiles.grade.id.post',
@@ -82,4 +82,3 @@ export default [
   }
   
 ]
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJkZjRkMGIzLWNlYTQtNGIwNC1hNDllLTI1ZDYzY2IxOTI5MCIsImlkVXNlciI6ImRiMTRmZGExLWJhYTktNDMzYS05OGQzLTZjYjI4MzAzY2EzOSIsImlhdCI6MTY0MzMxMjY5NSwiZXhwIjoxNjQzMzIxNjk1fQ.Rkaa_XyBtUTzwDHMpDlF_jELyTo5R65Elo4_t36X-Kw

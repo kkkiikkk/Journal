@@ -151,7 +151,8 @@ export const createGrade = async (r) => {
 
   const profile = await Profile.findOne({
     where: {
-      id: r.params.id
+      id: r.params.id,
+      type:'student'
     }
   })
 
@@ -171,10 +172,8 @@ export const createGrade = async (r) => {
     return error(Errors.NotFound, 'You not teacher', {})
   }
 
-  const isUniversity = teacher.university === profile.university
-  const isFaculty = teacher.faculty === profile.faculty
-
-  if (isUniversity && isFaculty) {
+  if (teacher.faculty === profile.faculty) {
+    
     const gradeCreated = await Grade.createGrade({grade, lesson,
       teacherId: teacher.id,
       studentId: profile.id

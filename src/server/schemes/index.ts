@@ -69,4 +69,5 @@ export const grade = Joi.object({
     .required(),
   grade: Joi.number()
   .required()
+  .valid(1, 2, 3, 4, 5)
 })
