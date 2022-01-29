@@ -36,13 +36,15 @@ export const userLogin = Joi.object({
     .required()  
 })
 
+const group = Joi.string()
+
 export const profile = Joi.object({
   faculty: Joi.string()
     .required(),
   university: Joi.string() 
     .valid('ЗГИА', 'ЗНТУ', 'ЗНУ')
     .required(),
-  group: Joi.string().required(),
+  group: group,
   
 })
 
@@ -64,9 +66,14 @@ export const userUpdate = Joi.object({
     .required()
 })
 
+const lesson = Joi.string().required()
+
 export const grade = Joi.object({
-  lesson: Joi.string()
-    .required(),
+  lesson: lesson,
   grade: Joi.number()
   .required()
+})
+
+export const getGrade = Joi.object({
+  lesson: lesson
 })

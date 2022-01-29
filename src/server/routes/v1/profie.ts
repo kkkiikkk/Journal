@@ -1,5 +1,5 @@
-import { averageRaiting, averageRaitingFaculty, averageRaitingGroup, createGrade, updateGrade, updateProfile } from "../../api/v1/user";
-import { grade, profile } from "../../schemes";
+import { averageRaiting, averageRaitingFaculty, averageRaitingGroup, createGrade, getAverageGrade, updateGrade, updateProfile } from "../../api/v1/profile";
+import { getGrade, grade, profile } from "../../schemes";
 
 export default [
     {
@@ -76,6 +76,19 @@ export default [
           },
         },
         handler: averageRaitingGroup
-      }
+      },
+      {
+        method: 'POST',
+        path: '/v1/profiles/{id}/grades/averageGrade',
+        options: {
+          auth: 'jwt-access',
+          id: 'v1.profiles.id.grades.averageGrade.post',
+          tags: ['api', 'v1', 'profiles', 'grades', 'averageGrade'],
+          validate: {
+            payload: getGrade
+          },
+        },
+        handler: getAverageGrade
+      },
 ]
 
