@@ -289,3 +289,46 @@ export const averageRaitingFaculty = async (r) => {
 
 }
 
+export const averageRaitingGroup = async (r) => {
+
+  const {university, group, faculty} = r.payload
+
+  const teacher = await Profile.findOne({
+    where: {
+      type: 'teacher',
+      faculty: r.payload.faculty,
+      userId: r.auth.credentials.id,
+      university: r.payload.university
+    }
+  })
+  
+  if (!teacher) {
+    return error(Errors.NotFound, 'You not teacher', {})
+  }
+  console.log(1)
+
+  const profiles = await Profile.findAll({
+    where: {
+    university: university,
+      group: group,
+      faculty: faculty,
+      type: 'student'
+    },
+    include: {
+      model: Grade,
+        where: {
+          teacherId: teacher.id
+        }
+    },
+  })
+
+  let sum = 0
+  let length = 0
+
+  profiles.map((profile) => {
+    profile.grades.map(grade => (sum=+ grade.grade, length++))
+  })
+
+  return output({averageGroup: sum/length})
+}
+

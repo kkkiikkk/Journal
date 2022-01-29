@@ -3,13 +3,8 @@ import {
   authUser, 
   createProfile, 
   updateUser, 
-  updateProfile, 
-  createGrade, 
-  updateGrade, 
-  averageRaiting, 
-  averageRaitingFaculty
 } from '../../api/v1/user';
-import {  grade, profile, user, userLogin, userUpdate} from '../../schemes';
+import {   profile, user, userLogin, userUpdate} from '../../schemes';
 
 export default [
   {

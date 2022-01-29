@@ -42,7 +42,7 @@ export const profile = Joi.object({
   university: Joi.string() 
     .valid('ЗГИА', 'ЗНТУ', 'ЗНУ')
     .required(),
-  group: Joi.string(),
+  group: Joi.string().required(),
   
 })
 
