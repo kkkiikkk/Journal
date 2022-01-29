@@ -259,3 +259,33 @@ export const getAverageGrade = async (r) => {
 
     return output(grades)
 }
+
+export const listGradesLesson = async (r) => {
+
+    const {lesson} = r.payload
+
+    const student = await Profile.findOne({
+        where: {
+            id: r.params.id,
+            type: 'student'
+        },
+    })
+
+    if (!student) {
+        return error(Errors.NotFound, 'You not student', {})
+    }
+
+    const grades = await Grade.findAll({
+        where: {
+            studentId: student.id,
+            lesson: lesson
+        },
+        attributes: ['grade']
+    })
+
+    if(!grades) {
+        return error(Errors.NotFound, 'You haven not grades', {})
+    }
+
+    return output(grades)
+}
