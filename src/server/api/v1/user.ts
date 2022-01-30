@@ -220,6 +220,8 @@ export const updateGrade = async (r) => {
 
 export const averageRaiting = async (r) => {
 
+  const user = r.auth.credentials
+
   const profile = await Profile.findOne({
     where:{
       id: r.params.id,
@@ -230,10 +232,10 @@ export const averageRaiting = async (r) => {
   if (!profile){
     return error(Errors.NotFound, 'Profile not Found', {})
   }
-
+  
   const userProfile = await Profile.findOne({
     where: {
-      userId: r.auth.credentials.id,
+      userId: user.id,
       university: profile.university,
       faculty: profile.faculty,
       type: 'teacher'
@@ -244,24 +246,30 @@ export const averageRaiting = async (r) => {
     return error(Errors.NotFound, 'Profie Not Found', {})
   }
 
-  const grades = await Grade.findAll({
-    where: {
-      [Op.or]: [
-        {
-          studentId: r.params.id,
-        },
-        {
-          teacherId: userProfile.id
-        }
+  if (profile.userId === user.id) {
+    const grades = await Grade.findAll({
+      where: {
+            studentId: r.params.id,
+      },
+      attributes: [
+        [fn('AVG', col('grade')), 'avgRating'],
       ]
-    },
-    attributes: [
-      [fn('AVG', col('grade')), 'avgRating'],
-    ]
-  })
+    })
 
+    return output(grades)
+  } 
 
-  return output(grades)
+    const grades = await Grade.findAll({
+      where: {
+        teacherId: userProfile.id,
+      },
+      attributes: [
+        [fn('AVG', col('grade')), 'avgRating'],
+      ]
+    })
+
+    return output(grades)
+  
 }
 
 
