@@ -1,0 +1,772 @@
+{
+	"info": {
+		"_postman_id": "f42d64cc-e18f-4ca6-bec4-975553f7eded",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"jsosData = pm.response.json()\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"password\": {\"type\": \"string\"},\r",
+							"        \t\"username\": {\"type\": \"string\"},\r",
+							"        \t\"email\": {\"type\": \"string\"},\r",
+							"        \t\"phone\": {\"type\": \"string\"},\r",
+							"        \t\"dateOfBirth\": {\"type\": \"string\"},\r",
+							"        \t\"sex\": {\"type\": \"string\"},\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.response.to.have.jsonSchema(schema);\r",
+							"    pm.test(\"Status code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"rost\",\r\n    \"email\": \"ruska4@gmail.com\",\r\n    \"password\": \"kooldown78\",\r\n    \"phone\": \"0953966823\",\r\n    \"dateOfBirth\": \"05.10.2005\",\r\n    \"sex\": \"female\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \t\"access\": {\"type\": \"string\"},   \r",
+							"    },\r",
+							"    \"required\": [\"access\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"ruska3@gmail.com\",\r\n    \"password\": \"kooldown78\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createProfile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"university\": {\"type\": \"string\"},\r",
+							"        \t\"faculty\": {\"type\": \"string\"},\r",
+							"        \t\"userId\": {\"type\": \"string\"},\r",
+							"        \t\"universityId\": {\"type\": \"string\"},\r",
+							"            \"group\": {\"type\": \"integer\"}\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM4ODg3YTIwLTNhNWItNDZiZS04YmE0LWQxNmFlNDVhYWNkNCIsImlkVXNlciI6ImFlZjYyMjljLTRlMDgtNDRiYi1iODJjLWMxMGY4YjZmMzYzZiIsImlhdCI6MTY0MzcyNzQ3NCwiZXhwIjoxNjQzODE3NDc0fQ.6cmkQRdP4nW5dMpHLnJy_PbouAZ8uej70j85BrzNdsI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"faculty\": \"electro\",\r\n    \"university\": \"ЗНУ\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/user/createProfile",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"user",
+						"createProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"password\": {\"type\": \"string\"},\r",
+							"        \t\"username\": {\"type\": \"string\"},\r",
+							"        \t\"email\": {\"type\": \"string\"},\r",
+							"        \t\"phone\": {\"type\": \"string\"},\r",
+							"        \t\"dateOfBirth\": {\"type\": \"string\"},\r",
+							"        \t\"sex\": {\"type\": \"string\"},\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"    pm.test(\"Status code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0ZDZmNWY3LWU3MjMtNDg0Zi1hYzEzLWEyMjFlNjIwZDNhZSIsImlkVXNlciI6ImFlZjYyMjljLTRlMDgtNDRiYi1iODJjLWMxMGY4YjZmMzYzZiIsImlhdCI6MTY0MzcyNzk3NiwiZXhwIjoxNjQzODE3OTc2fQ.BFAlbjwqGijrL_GCdjUUm04BQGxNvsIDXmKDOX8osV8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"ruskastar3\",\r\n    \"password\": \"kooldown788\",\r\n    \"phone\": \"+38095396825\",\r\n    \"dateOfBirth\": \"05.20.2009\",\r\n    \"sex\": \"female\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/updateUser",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"updateUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uodateProfile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"university\": {\"type\": \"string\"},\r",
+							"        \t\"faculty\": {\"type\": \"string\"},\r",
+							"        \t\"userId\": {\"type\": \"string\"},\r",
+							"        \t\"universityId\": {\"type\": \"string\"},\r",
+							"            \"group\": {\"type\": \"integer\"}\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"    pm.test(\"Status code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0ZDZmNWY3LWU3MjMtNDg0Zi1hYzEzLWEyMjFlNjIwZDNhZSIsImlkVXNlciI6ImFlZjYyMjljLTRlMDgtNDRiYi1iODJjLWMxMGY4YjZmMzYzZiIsImlhdCI6MTY0MzcyNzk3NiwiZXhwIjoxNjQzODE3OTc2fQ.BFAlbjwqGijrL_GCdjUUm04BQGxNvsIDXmKDOX8osV8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"university\": \"ЗГИА\",\r\n    \"faculty\": \"elec\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/profiles/855878cc-c185-46ab-b461-10b06f53062a",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						"855878cc-c185-46ab-b461-10b06f53062a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createGrade",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"grade\": {\"type\": \"string\"},\r",
+							"        \t\"lesson\": {\"type\": \"string\"},\r",
+							"        \t\"teacherId\": {\"type\": \"string\"},\r",
+							"        \t\"studentId\": {\"type\": \"string\"},\r",
+							"            \"id\": {\"type\": \"integer\"}\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0ZDZmNWY3LWU3MjMtNDg0Zi1hYzEzLWEyMjFlNjIwZDNhZSIsImlkVXNlciI6ImFlZjYyMjljLTRlMDgtNDRiYi1iODJjLWMxMGY4YjZmMzYzZiIsImlhdCI6MTY0MzcyNzk3NiwiZXhwIjoxNjQzODE3OTc2fQ.BFAlbjwqGijrL_GCdjUUm04BQGxNvsIDXmKDOX8osV8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lesson\": \"Math\",\r\n    \"grade\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/profiles/createGrade/855878cc-c185-46ab-b461-10b06f53062a",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						"createGrade",
+						"855878cc-c185-46ab-b461-10b06f53062a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateGrade\\",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"grade\": {\"type\": \"string\"},\r",
+							"        \t\"lesson\": {\"type\": \"string\"},\r",
+							"        \t\"teacherId\": {\"type\": \"string\"},\r",
+							"        \t\"studentId\": {\"type\": \"string\"},\r",
+							"            \"id\": {\"type\": \"integer\"}\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0ZDZmNWY3LWU3MjMtNDg0Zi1hYzEzLWEyMjFlNjIwZDNhZSIsImlkVXNlciI6ImFlZjYyMjljLTRlMDgtNDRiYi1iODJjLWMxMGY4YjZmMzYzZiIsImlhdCI6MTY0MzcyNzk3NiwiZXhwIjoxNjQzODE3OTc2fQ.BFAlbjwqGijrL_GCdjUUm04BQGxNvsIDXmKDOX8osV8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lesson\": \"Math\",\r\n    \"grade\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/profiles/gradeUpdate/c1826b7c-6cb8-4f17-933d-3582dbc28dcb",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						"gradeUpdate",
+						"c1826b7c-6cb8-4f17-933d-3582dbc28dcb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "raiting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"average\": {\"type\": \"integer\"},\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0ZDZmNWY3LWU3MjMtNDg0Zi1hYzEzLWEyMjFlNjIwZDNhZSIsImlkVXNlciI6ImFlZjYyMjljLTRlMDgtNDRiYi1iODJjLWMxMGY4YjZmMzYzZiIsImlhdCI6MTY0MzcyNzk3NiwiZXhwIjoxNjQzODE3OTc2fQ.BFAlbjwqGijrL_GCdjUUm04BQGxNvsIDXmKDOX8osV8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/v1/profiles/averageRaiting/855878cc-c185-46ab-b461-10b06f53062a",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						"averageRaiting",
+						"855878cc-c185-46ab-b461-10b06f53062a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "averageFaculty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"average\": {\"type\": \"integer\"},\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM4ODg3YTIwLTNhNWItNDZiZS04YmE0LWQxNmFlNDVhYWNkNCIsImlkVXNlciI6ImFlZjYyMjljLTRlMDgtNDRiYi1iODJjLWMxMGY4YjZmMzYzZiIsImlhdCI6MTY0MzcyNzQ3NCwiZXhwIjoxNjQzODE3NDc0fQ.6cmkQRdP4nW5dMpHLnJy_PbouAZ8uej70j85BrzNdsI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"faculty\": \"elec\",\r\n    \"university\": \"ЗГИА\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/grades/averageFaculty",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"grades",
+						"averageFaculty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "averageGrade",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"average\": {\"type\": \"integer\"},\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM4ODg3YTIwLTNhNWItNDZiZS04YmE0LWQxNmFlNDVhYWNkNCIsImlkVXNlciI6ImFlZjYyMjljLTRlMDgtNDRiYi1iODJjLWMxMGY4YjZmMzYzZiIsImlhdCI6MTY0MzcyNzQ3NCwiZXhwIjoxNjQzODE3NDc0fQ.6cmkQRdP4nW5dMpHLnJy_PbouAZ8uej70j85BrzNdsI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/profiles/{id}/grades/averageGrade",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						"{id}",
+						"grades",
+						"averageGrade"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "allGrade",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"average\": {\"type\": \"integer\"},\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/v1/profiles/{id}/grades",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"profiles",
+						"{id}",
+						"grades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var schema = {\r",
+							"  \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"ok\": { \"type\": \"boolean\"},\r",
+							"        \"result\":{\r",
+							"        \t\"average\": {\"type\": \"integer\"},\r",
+							"        },\r",
+							"     \r",
+							"    },\r",
+							"    \"required\": [\"result\", \"ok\"]\r",
+							"}\r",
+							"\r",
+							"var jsonData = pm.response.json()\r",
+							"\r",
+							"pm.test('Schema is valid', function () {\r",
+							"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/v1/grades/averageGroup",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"grades",
+						"averageGroup"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
